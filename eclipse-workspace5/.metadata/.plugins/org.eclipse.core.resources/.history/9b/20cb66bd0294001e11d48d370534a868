@@ -1,0 +1,84 @@
+package qaautomation.adminBatpay;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+
+public class Webtest {
+
+    @Test
+    public void testKYC() {
+//     System.setProperty("webdriver.chrome.driver", "C:\\Users\\USER\\Downloads\\chromedriver_win32\\chromedriver.exe");
+     WebDriver driver;
+     WebDriverManager.firefoxdriver().setup();
+     driver = new FirefoxDriver();
+     
+     driver.get("https://sb-batpanel.batpay.id/");
+     driver.findElement(By.xpath("//input[@type='text']")).sendKeys("operation@batpay.id");
+	 driver.findElement(By.xpath("//input[@type='password']")).sendKeys("P@ssw0rd");
+	 driver.findElement(By.xpath("//button[normalize-space()='Masuk']")).click();
+	 driver.findElement(By.xpath("(//a[@href='#'])[2]")).click();
+	 driver.findElement(By.xpath("(//span[normalize-space()='Request Upgrade Pelanggan (KYC)'])[1]")).click();
+	 String actualText = driver.findElement(By.xpath("(//span[contains(text(),'Request Upgrade Pelanggan (KYC)')])[2]")).getText();
+		String expectedText = "Request Upgrade Pelanggan (KYC)";
+		Assert.assertTrue(actualText.contains(expectedText));
+	driver.findElement(By.xpath("(//a[normalize-space()='Lihat'])[1]")).click();
+	driver.findElement(By.xpath("(//div[contains(text(),'Silakan isi Komentar')])[1]")).sendKeys("ok");
+	driver.findElement(By.xpath("(//button[normalize-space()='Setuju'])[1]")).click();
+	
+	driver.quit();
+    }
+    
+    @Test
+    public class MultiTest {
+
+        public void main(String[] args) {
+            // Create a thread pool with two threads
+            ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+            // Submit tasks to the thread pool
+            for (int i = 0; i < 2; i++) {
+                executorService.submit(() -> {
+                    WebDriver driver = new FirefoxDriver();
+                    runTest(driver);
+                    driver.quit();
+                });
+            }
+
+            // Shutdown the thread pool after all tasks are completed
+            executorService.shutdown();
+        }
+
+        private void runTest(WebDriver driver) {
+             driver.get("https://sb-batpanel.batpay.id/");
+            driver.findElement(By.xpath("//input[@type='text']")).sendKeys("operation@batpay.id");
+            driver.findElement(By.xpath("//input[@type='password']")).sendKeys("P@ssw0rd");
+            driver.findElement(By.xpath("//button[normalize-space()='Masuk']")).click();
+            driver.findElement(By.xpath("//body/div/div/nav/ul/li[6]/a[1]")).click();
+            driver.findElement(By.xpath("(//span[contains(text(),'Permintaan')])[1]")).click();
+            String actualText = driver.findElement(By.xpath("(//span[normalize-space()='Buka Blokir Akun'])[1]")).getText();
+            String expectedText = "Buka Blokir Akun";
+            Assert.assertTrue(actualText.contains(expectedText));
+            driver.findElement(By.xpath("(//a[normalize-space()='Telepon'])[1]")).click();
+            driver.findElement(By.xpath("(//input[@type='text'])[2]")).sendKeys("0895379072232");
+            driver.findElement(By.xpath("(//span[contains(text(),'Permintaan')])[1]")).click();
+            WebDriverWait wait = new WebDriverWait(driver, 10);
+            WebElement lihatElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//a[normalize-space()='Lihat'])[1]")));
+            lihatElement.click();
+            driver.findElement(By.xpath("(//div[@role='textbox'])[1]")).sendKeys("oke");
+            driver.findElement(By.xpath("(//button[normalize-space()='Setuju'])[1]")).click();
+            driver.findElement(By.xpath("//button[contains(text(),'Setuju')]")).click();
+        }
+    }}

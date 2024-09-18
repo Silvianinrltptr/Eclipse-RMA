@@ -1,0 +1,160 @@
+package qaautomation.adminBatpay;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+
+public class Webtest {
+
+//    @Test
+//    public void testKYC() {
+////     System.setProperty("webdriver.chrome.driver", "C:\\Users\\USER\\Downloads\\chromedriver_win32\\chromedriver.exe");
+//     WebDriver driver;
+//     WebDriverManager.firefoxdriver().setup();
+//     driver = new FirefoxDriver();
+//     
+//     driver.get("https://sb-batpanel.batpay.id/");
+//     driver.findElement(By.xpath("//input[@type='text']")).sendKeys("operation@batpay.id");
+//	 driver.findElement(By.xpath("//input[@type='password']")).sendKeys("P@ssw0rd");
+//	 driver.findElement(By.xpath("//button[normalize-space()='Masuk']")).click();
+//	 driver.findElement(By.xpath("(//a[@href='#'])[2]")).click();
+//	 driver.findElement(By.xpath("(//span[normalize-space()='Request Upgrade Pelanggan (KYC)'])[1]")).click();
+//	 String actualText = driver.findElement(By.xpath("(//span[contains(text(),'Request Upgrade Pelanggan (KYC)')])[2]")).getText();
+//		String expectedText = "Request Upgrade Pelanggan (KYC)";
+//		Assert.assertTrue(actualText.contains(expectedText));
+//	driver.findElement(By.xpath("(//a[normalize-space()='Lihat'])[1]")).click();
+//	driver.findElement(By.xpath("(//div[contains(text(),'Silakan isi Komentar')])[1]")).sendKeys("ok");
+//	driver.findElement(By.xpath("(//button[normalize-space()='Setuju'])[1]")).click();
+//	
+//	driver.quit();
+//    }
+    
+    
+//    @Test
+//    public void testBlokir() {
+//        // Set up the first WebDriver
+//        WebDriver driver1;
+//        WebDriverManager.firefoxdriver().setup();
+//        driver1 = new FirefoxDriver();
+//
+//        // Run the test for the first WebDriver
+//        runTest(driver1);
+//
+//        // Close the first browser
+//        driver1.quit();
+//
+//        // Set up the second WebDriver
+//        WebDriver driver2;
+//        WebDriverManager.firefoxdriver().setup();
+//        driver2 = new FirefoxDriver();
+//
+//        // Run the test for the second WebDriver
+//        runTest(driver2);
+//
+//        // Close the second browser
+//        driver2.quit();
+//    }
+//
+//    private void runTest(WebDriver driver) {
+//        driver.get("https://sb-batpanel.batpay.id/");
+//        driver.findElement(By.xpath("//input[@type='text']")).sendKeys("operation@batpay.id");
+//        driver.findElement(By.xpath("//input[@type='password']")).sendKeys("P@ssw0rd");
+//        driver.findElement(By.xpath("//button[normalize-space()='Masuk']")).click();
+//        driver.findElement(By.xpath("//body/div/div/nav/ul/li[6]/a[1]")).click();
+//        driver.findElement(By.xpath("(//span[contains(text(),'Permintaan')])[1]")).click();
+//        String actualText = driver.findElement(By.xpath("(//span[normalize-space()='Buka Blokir Akun'])[1]")).getText();
+//        String expectedText = "Buka Blokir Akun";
+//        Assert.assertTrue(actualText.contains(expectedText));
+//        driver.findElement(By.xpath("(//a[normalize-space()='Telepon'])[1]")).click();
+//        driver.findElement(By.xpath("(//input[@type='text'])[2]")).sendKeys("0895379072232");
+//        driver.findElement(By.xpath("(//span[contains(text(),'Permintaan')])[1]")).click();
+//        WebDriverWait wait = new WebDriverWait(driver, 10);
+//        WebElement lihatElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//a[normalize-space()='Lihat'])[1]")));
+//        lihatElement.click();
+//        driver.findElement(By.xpath("(//div[@role='textbox'])[1]")).sendKeys("oke");
+//        driver.findElement(By.xpath("(//button[normalize-space()='Setuju'])[1]")).click();
+//        driver.findElement(By.xpath("//button[contains(text(),'Setuju')]")).click();
+//   
+//        
+//    }
+//    
+//     
+//}
+
+   
+	@Test
+    public void testBlokir() {
+        // Buat dan mulai thread untuk setiap tes
+        Thread thread1 = new Thread(() -> runTest("operation@batpay.id", "P@ssw0rd"));
+        Thread thread2 = new Thread(() -> runTest("o@batpay.id", "P@ssw0rd"));
+
+        // Start kedua thread
+        thread1.start();
+        thread2.start();
+
+        try {
+            // Tunggu kedua thread selesai
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void runTest(String username, String password) {
+        WebDriver driver = null;
+        try {
+            // Persiapkan WebDriver
+            WebDriverManager.firefoxdriver().setup();
+            driver = new FirefoxDriver();
+
+            // Navigasi ke situs web
+            driver.get("https://sb-batpanel.batpay.id/");
+
+            // Isi formulir login
+            driver.findElement(By.xpath("//input[@type='text']")).sendKeys(username);
+            driver.findElement(By.xpath("//input[@type='password']")).sendKeys(password);
+            driver.findElement(By.xpath("//button[normalize-space()='Masuk']")).click();
+         // Tunggu hingga halaman terbuka
+            WebDriverWait wait = new WebDriverWait(driver, 10);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//body/div/div/nav/ul/li[6]/a[1]")));
+
+            // Lakukan langkah-langkah berikutnya
+            driver.findElement(By.xpath("//a[@href='https://sb-batpanel.batpay.id/request-unblock-account']//span[contains(text(),'Permintaan')]")).click();
+//          WebDriverWait wait = new WebDriverWait(driver, 10);
+          String actualText = driver.findElement(By.xpath("(//span[normalize-space()='Buka Blokir Akun'])[1]")).getText();
+          String expectedText = "Buka Blokir Akun";
+          Assert.assertTrue(actualText.contains(expectedText));
+          driver.findElement(By.xpath("(//a[normalize-space()='Telepon'])[1]")).click();
+          driver.findElement(By.xpath("(//input[@type='text'])[2]")).sendKeys("0887097178");
+          
+//          WebDriverWait wait = new WebDriverWait(driver, 20);
+          driver.findElement(By.xpath("(//a[normalize-space()='Lihat'])[1]")).click();
+          driver.findElement(By.xpath("//div[@role='textbox']")).click();
+//          WebDriverWait wait = new WebDriverWait(driver, 10);
+//          WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[contains(text(),'Permintaan')])[1]")));
+//          element.click();
+          driver.findElement(By.xpath("(//div[@role='textbox'])[1]")).sendKeys("oke");
+          driver.findElement(By.xpath("(//button[normalize-space()='Setuju'])[1]")).click();
+          driver.findElement(By.xpath("//button[contains(text(),'Setuju')]")).click();
+
+        } finally {
+            // Tutup browser setelah selesai
+            if (driver != null) {
+                driver.quit();
+            }
+        }
+    }
+}

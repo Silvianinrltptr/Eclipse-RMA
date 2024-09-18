@@ -1,0 +1,40 @@
+package com.javaprogram;import java.text.Format;
+
+public class ExampleBelajar {
+
+	public static void main(String[] args) {
+		System.out.println("hello world");
+		System.out.println("Silviani Nurlita Putri");
+		
+		
+		String kata = "silviani nurlita putri  ";
+		System.out.println(kata);
+		
+//		int a = 6;
+//		int b = 3;
+//		System.out.println(a+b);
+		
+		String kata2 = "hallo";
+		String kataGabungan = kata + kata2;
+		System.out.println(kataGabungan);
+		
+		String url = "https//google.com/doc.pdf";
+//		expected true
+		System.out.println(url.endsWith("pdf"));
+//		expected false 
+		System.out.println(url.endsWith("exe"));
+		
+		String word = "Silvia";
+		String word2 = "Silvia";
+		
+		System.out.println(word.equals(word2));
+		
+		
+		String test1 = "hallo";
+		String test2 = "hallo2";
+		
+//		System.out.println(String.for);
+		
+	}
+
+}

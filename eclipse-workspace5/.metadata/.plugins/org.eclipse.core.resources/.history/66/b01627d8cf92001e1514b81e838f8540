@@ -1,0 +1,26 @@
+package qaautomation.adminBatpay;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+
+public class Webtest {
+
+    @Test
+    public void testLogin() {
+     System.setProperty("webdriver.chrome.driver", "C:\\Users\\USER\\Downloads\\chromedriver_win32\\chromedriver.exe");
+     WebDriver driver;
+     WebDriverManager.firefoxdriver().setup();
+     driver = new FirefoxDriver();
+     
+     driver.get("https://google.com");
+     
+     driver.quit();
+    	   
+     
+    }
+}

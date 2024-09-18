@@ -1,0 +1,27 @@
+package qaautomation.adminBatpay;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chromium.ChromiumDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+
+public class Webtest {
+
+    @Test
+    public void testLogin() {
+//     System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
+     WebDriver driver;
+     WebDriverManager.chromiumdriver().setup();
+     driver = new ChromiumDriver();
+     
+     driver.get("https://google.com");
+     
+     driver.quit();
+    	   
+     
+    }
+}
